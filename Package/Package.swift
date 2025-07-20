@@ -30,6 +30,7 @@ let package = Package(
         .target(
             name: "AppFeature",
             dependencies: [
+                "Domain",
                 "HomeFeature",
                 "SettingsFeature",
             ]),
@@ -41,6 +42,7 @@ let package = Package(
         .target(
             name: "HomeFeature",
             dependencies: [
+                "Domain",
                 "SharedExtensions",
                 "SharedModels",
             ]),
