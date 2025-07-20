@@ -1,0 +1,28 @@
+{
+  "feature_name": "sawayaka-waittime-viewer",
+  "project_description": "静岡県にあるファミレスチェーン店の「さわやか」の店舗の待ち時間を一覧で確認できるiOSアプリケーションを開発したいです。サポートiOSバージョンはiOS17.0以降で、画面の実装にはSwiftUIを利用したいです。非同期処理にはSwift Concurrencyを利用するようにしたいです。",
+  "created_at": "2025-07-20T15:01:00Z",
+  "updated_at": "2025-07-20T15:20:00Z",
+  "language": "japanese",
+  "phase": "tasks-generated",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": true
+    },
+    "design": {
+      "generated": true,
+      "approved": true
+    },
+    "tasks": {
+      "generated": true,
+      "approved": true
+    }
+  },
+  "progress": {
+    "requirements": 100,
+    "design": 100,
+    "tasks": 100
+  },
+  "ready_for_implementation": false
+}
