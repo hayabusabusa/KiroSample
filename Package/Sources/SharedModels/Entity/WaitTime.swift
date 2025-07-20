@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 /// 店舗の待ち時間情報
-public struct WaitTime: Decodable, Sendable, Equatable {
+public struct WaitTime: Codable, Sendable, Equatable {
     /// 待ち時間（分）。営業時間外や取得不可の場合はnil
     public let minutes: Int?
     /// 待ち時間のステータス
@@ -11,7 +11,7 @@ public struct WaitTime: Decodable, Sendable, Equatable {
     public let lastUpdated: Date
     
     /// 待ち時間の状態を表すEnum
-    public enum WaitStatus: String, Decodable, Sendable, CaseIterable, Equatable {
+    public enum WaitStatus: String, Codable, Sendable, CaseIterable, Equatable {
         case available = "available"      // 営業中
         case closed = "closed"           // 営業時間外
         case unavailable = "unavailable" // データ取得不可

@@ -2,7 +2,7 @@ import Foundation
 import CoreLocation
 
 /// 地理座標情報
-public struct Coordinate: Decodable, Sendable, Equatable {
+public struct Coordinate: Codable, Sendable, Equatable {
     /// 緯度
     public let latitude: Double
     /// 経度

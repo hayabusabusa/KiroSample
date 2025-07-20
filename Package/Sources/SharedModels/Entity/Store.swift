@@ -1,7 +1,7 @@
 import Foundation
 
 /// さわやか店舗の情報を表現するモデル
-public struct Store: Identifiable, Decodable, Sendable, Equatable {
+public struct Store: Identifiable, Codable, Sendable, Equatable {
     /// 店舗の一意識別子
     public let id: String
     /// 店舗名（例: "さわやか 静岡インター店"）

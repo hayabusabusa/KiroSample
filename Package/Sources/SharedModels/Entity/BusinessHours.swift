@@ -1,7 +1,7 @@
 import Foundation
 
 /// 店舗の営業時間情報
-public struct BusinessHours: Decodable, Sendable, Equatable {
+public struct BusinessHours: Codable, Sendable, Equatable {
     /// 平日営業時間（例: "11:00-23:00"）
     public let weekday: String
     /// 週末営業時間（例: "11:00-23:00"）
