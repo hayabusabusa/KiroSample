@@ -1,127 +1,102 @@
-# Project Structure
+# プロジェクト構造
 
-## Root Directory Organization
-```
-KiroSample/
-├── .kiro/                    # Kiro spec-driven development files
-│   ├── steering/            # プロジェクト指針ドキュメント
-│   └── specs/               # 機能仕様書
-├── App/                     # メインiOSアプリケーション
-│   ├── App.xcodeproj        # Xcodeプロジェクトファイル
-│   ├── App/                 # アプリケーションソースコード
-│   ├── AppTests/            # ユニットテスト
-│   └── AppUITests/          # UIテスト
-├── Package/                 # Swift Package Manager モジュール群
-│   ├── Package.swift        # パッケージ定義
-│   ├── Sources/             # ソースコード
-│   └── Tests/               # テストコード
-├── Sawayaka.xcworkspace     # Xcodeワークスペース
-├── CLAUDE.md                # Claude Code指示書
-└── README.md                # プロジェクトドキュメント
-```
+## 概要
 
-## App Directory Structure
+このプロジェクトは、ダイアトニックコード学習アプリのためのマルチモジュール構成を採用しています。Swift Package Manager (SPM)を使用してモジュール化されており、機能単位で分離された設計になっています。
 
-### `/App/App/`
-```
-App/
-├── SawayakaApp.swift       # アプリケーションエントリーポイント(@main)
-├── Assets.xcassets/        # アプリアイコン、画像リソース
-└── Preview Content/        # SwiftUIプレビュー用リソース
-```
+## アーキテクチャ
 
-## Package Module Structure
+### プロジェクト構成
 
-### `/Package/Sources/`
 ```
-Sources/
-├── AppFeature/             # アプリケーション統合モジュール
-│   └── AppView.swift       # ルートビュー
-├── Domain/                 # ビジネスロジック層
-│   ├── Repositories/       # データアクセス抽象化
-│   │   └── StoreRepository.swift
-│   └── Services/           # ビジネスサービス
-│       └── StoreService.swift
-├── HomeFeature/            # ホーム画面機能
-│   └── HomeView.swift      # 店舗一覧・検索画面
-├── SettingsFeature/        # 設定画面機能
-│   └── SettingsView.swift  # アプリ設定画面
-├── SharedExtensions/       # 共通拡張機能
-│   └── Utils/              # ユーティリティ関数
-│       └── String+.swift   # String拡張
-└── SharedModels/           # 共通データモデル
-    ├── Entity/             # エンティティモデル
-    │   └── Store.swift     # 店舗モデル
-    ├── DTO/                # データ転送オブジェクト
-    └── Enums/              # 列挙型定義
+DiatonicSample/
+├── App/                          # メインアプリプロジェクト
+│   ├── App.xcodeproj            # Xcodeプロジェクト
+│   ├── App/                     # アプリケーションエントリーポイント
+│   │   ├── DiatonicApp.swift    # アプリケーション定義
+│   │   ├── ContentView.swift    # 初期ビュー（未使用）
+│   │   └── Assets.xcassets/     # アセット
+│   ├── AppTests/                # アプリテスト
+│   └── AppUITests/             # UIテスト
+├── Package/                     # SPMパッケージ
+│   ├── Package.swift           # パッケージ定義
+│   └── Sources/                # モジュールソース
+│       ├── AppFeature/         # アプリ機能モジュール
+│       ├── Domain/             # ドメイン層
+│       ├── KeySuggestionFeature/ # キーサジェスト機能
+│       └── SharedModels/       # 共通モデル
+├── Diatonic.xcworkspace        # Xcodeワークスペース
+└── CLAUDE.md                   # プロジェクト指示書
 ```
 
-## Code Organization Patterns
-- **Modular Architecture**: 機能別パッケージ分割による疎結合設計
-- **MVVM + Repository Pattern**: データ層分離とテスタビリティ向上
-- **Feature-Driven Development**: 機能単位での独立開発とテスト
-- **Dependency Injection**: プロトコル指向による依存性注入
+## モジュール構成
 
-## File Naming Conventions
-- **Swift Files**: PascalCase + 機能サフィックス
-  - `StoreListView.swift` (View)
-  - `StoreListViewModel.swift` (ViewModel) 
-  - `StoreRepository.swift` (Repository)
-  - `StoreService.swift` (Service)
-  - `Store.swift` (Model/Entity)
-- **Feature Modules**: PascalCase + "Feature"サフィックス
-  - `HomeFeature`, `SettingsFeature`
-- **Test Files**: 対象ファイル名 + `Tests.swift`
-  - `StoreServiceTests.swift`
+### 1. AppFeature
+- **役割**: アプリケーションのエントリーポイント
+- **依存関係**: KeySuggestionFeature
+- **説明**: アプリの最初の画面を定義し、KeySuggestionViewを表示
 
-## Import Organization
-```swift
-// 1. Foundation/System imports
-import Foundation
-import SwiftUI
+### 2. KeySuggestionFeature
+- **役割**: キーサジェスト機能の UI と ViewModel
+- **依存関係**: Domain, SharedModels
+- **説明**: コード名入力によるキーサジェスト機能を提供
 
-// 2. Apple framework imports  
-import CoreLocation
-import MapKit
+### 3. Domain
+- **役割**: ビジネスロジックとサービス層
+- **依存関係**: SharedModels
+- **説明**: KeySuggestionServiceなどのドメインサービスを提供
 
-// 3. Internal module imports (アルファベット順)
-import Domain
-import SharedModels
-import SharedExtensions
+### 4. SharedModels
+- **役割**: 共通データモデル
+- **依存関係**: なし
+- **説明**: Key.swiftなど、アプリ全体で使用される共通モデルを定義
+
+## 依存関係図
+
+```
+AppFeature → KeySuggestionFeature → Domain → SharedModels
+                                 ↗
+                      SharedModels
 ```
 
-## Key Architectural Principles
-- **Single Responsibility**: 各モジュール・クラスは単一の責務を持つ
-- **Dependency Inversion**: 具象ではなく抽象（Protocol）に依存
-- **Modular Design**: 機能別モジュール分割による保守性向上
-- **Protocol-Oriented Programming**: Swift標準のプロトコル指向設計
-- **Async/Await First**: Swift Concurrencyを優先した非同期処理
-- **Sendable Compliance**: Swift 6.0 Concurrency安全性の確保
-- **Observation Framework**: iOS 17+ @Observableマクロによる状態管理
+## ファイル組織
 
-## Module Dependencies
-```
-AppFeature
-├── HomeFeature
-└── SettingsFeature
+### 命名規則
+- **モジュール名**: PascalCase（例：AppFeature, KeySuggestionFeature）
+- **ファイル名**: PascalCase.swift（例：AppView.swift, KeySuggestionViewModel.swift）
+- **ディレクトリ名**: PascalCase（モジュール内のサブディレクトリは必要に応じて）
 
-Domain  
-└── SharedModels
+### ディレクトリ構造
+- **Sources/[ModuleName]/**: 各モジュールのソースコード
+- **Tests/[ModuleName]Tests/**: 各モジュールのテストコード
+- **App/**: メインアプリケーションのXcodeプロジェクト
 
-HomeFeature
-├── SharedExtensions
-└── SharedModels
+## 設計原則
 
-SettingsFeature
-├── SharedExtensions  
-└── SharedModels
+### 1. 単一責任の原則
+各モジュールは明確に定義された単一の責任を持ちます。
 
-SharedExtensions (依存なし)
-SharedModels (依存なし)
-```
+### 2. 依存関係の方向
+- UI層（Feature）→ ドメイン層（Domain）→ データ層（SharedModels）
+- 下位層から上位層への依存は禁止
 
-## Testing Strategy
-- **Unit Tests**: 各モジュール単位でのロジックテスト
-- **Integration Tests**: モジュール間連携テスト
-- **UI Tests**: エンドツーエンドシナリオテスト
-- **Mock Strategy**: Protocolベースによるモック実装
+### 3. モジュラー設計
+- 各機能は独立したモジュールとして実装
+- 再利用可能性と保守性を重視
+
+### 4. テスタビリティ
+- 各モジュールは独立してテスト可能
+- モックやスタブを使った単体テストを支援
+
+## 開発ガイドライン
+
+### 新機能の追加
+1. SharedModelsに必要なデータモデルを追加
+2. Domainに必要なサービスを実装
+3. 新しいFeatureモジュールを作成（必要に応じて）
+4. AppFeatureから新機能を統合
+
+### モジュール間通信
+- 依存関係注入を使用してサービスを渡す
+- プロトコルを使用してモジュール間の結合を疎にする
+- 共通のデータモデルはSharedModelsに配置

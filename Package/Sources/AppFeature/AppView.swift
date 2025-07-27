@@ -1,27 +1,16 @@
 //
-//  App.swift
+//  AppView.swift
 //  Package
 //
-//  Created by Shunya Yamada on 2025/07/20.
+//  Created by Shunya Yamada on 2025/07/21.
 //
 
-import Domain
 import SwiftUI
-import HomeFeature
+import KeySuggestionFeature
 
 public struct AppView: View {
     public var body: some View {
-        HomeView(
-            viewModel: StoreListViewModel(
-                storeService: StoreService(
-                    repository: StoreRepository(
-                        apiClient: MockAPIClient(),
-                        localStorage: LocalStorage()
-                    )
-                ),
-                networkService: NetworkService()
-            )
-        )
+        KeySuggestionView(viewModel: KeySuggestionViewModel())
     }
 
     public init() {}

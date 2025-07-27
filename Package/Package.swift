@@ -14,14 +14,8 @@ let package = Package(
             name: "Domain",
             targets: ["Domain"]),
         .library(
-            name: "HomeFeature",
-            targets: ["HomeFeature"]),
-        .library(
-            name: "SettingsFeature",
-            targets: ["SettingsFeature"]),
-        .library(
-            name: "SharedExtensions",
-            targets: ["SharedExtensions"]),
+            name: "KeySuggestionFeature",
+            targets: ["KeySuggestionFeature"]),
         .library(
             name: "SharedModels",
             targets: ["SharedModels"]),
@@ -30,40 +24,36 @@ let package = Package(
         .target(
             name: "AppFeature",
             dependencies: [
-                "Domain",
-                "HomeFeature",
-                "SettingsFeature",
+                "KeySuggestionFeature"
             ]),
         .target(
             name: "Domain",
             dependencies: [
-                "SharedModels"
+                "SharedModels",
             ]),
         .target(
-            name: "HomeFeature",
+            name: "KeySuggestionFeature",
             dependencies: [
                 "Domain",
-                "SharedExtensions",
                 "SharedModels",
             ]),
         .target(
-            name: "SettingsFeature",
-            dependencies: [
-                "SharedExtensions",
-                "SharedModels",
-            ]),
-        .target(
-            name: "SharedExtensions",
-            dependencies: []),
-        .target(
-            name: "SharedModels",
-            dependencies: []),
+            name: "SharedModels"),
+        // Test targets for each module
         .testTarget(
-            name: "PackageTests",
+            name: "SharedModelsTests",
             dependencies: [
-                "HomeFeature",
-                "SettingsFeature",
-            ]
-        ),
+                "SharedModels"
+            ]),
+        .testTarget(
+            name: "DomainTests",
+            dependencies: [
+                "Domain",
+            ]),
+        .testTarget(
+            name: "KeySuggestionFeatureTests",
+            dependencies: [
+                "KeySuggestionFeature",
+            ]),
     ]
 )

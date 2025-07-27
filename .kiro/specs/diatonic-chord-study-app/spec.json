@@ -1,0 +1,28 @@
+{
+  "feature_name": "diatonic-chord-study-app",
+  "project_description": "コード名を入力したらキーをサジェストしたり、そのキーに対応したダイアトニックコード一覧を表示するような音楽理論の勉強の補助として利用できるiOSアプリを作成したいです。",
+  "created_at": "2025-07-20T00:00:00Z",
+  "updated_at": "2025-07-20T01:50:00Z",
+  "language": "japanese",
+  "phase": "tasks-generated",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": true
+    },
+    "design": {
+      "generated": true,
+      "approved": true
+    },
+    "tasks": {
+      "generated": true,
+      "approved": true
+    }
+  },
+  "progress": {
+    "requirements": 100,
+    "design": 100,
+    "tasks": 100
+  },
+  "ready_for_implementation": true
+}
